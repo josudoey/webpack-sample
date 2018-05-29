@@ -1,6 +1,7 @@
 *~
 *.swp
 *.swo
+build
 
 node_modules
 package-lock.json

@@ -7,16 +7,18 @@ const globby = require('globby')
 const camelCase = require('camelcase')
 
 const projectPath = path.resolve(__dirname, '..')
-const htmlEntryTemplate = path.resolve(projectPath, './webpack/entry-html.pug')
 const contentPath = path.resolve(projectPath, 'webpack')
 const staticPath = path.resolve(projectPath, 'static')
-const htmlEntryOutputPath = path.resolve(projectPath, './build/public')
-const webpackPublicPath = ''
-const webpackEntryOutputPath = path.resolve(projectPath, './build/public/bundle', webpackPublicPath)
+const htmlEntryTemplate = path.resolve(projectPath, './webpack/entry-html.pug')
+const htmlPublicPath = './'
+const htmlEntryOutputPath = path.resolve(projectPath, './build/public', htmlPublicPath)
+
+const webpackPublicPath = './bundle/'
+const webpackEntryOutputPath = path.resolve(projectPath, './build/public', webpackPublicPath)
+
 const contentBase = path.resolve(projectPath, './build/public')
 
 const env = process.env.NODE_ENV
-const isDev = env !== 'production'
 const mode = (env === 'production') ? 'production' : 'development'
 const devMode = env !== 'production'
 
@@ -59,14 +61,13 @@ for (const entryPath of entryFiles) {
   entry[entryName] = [entryPath]
 
   const filename = path.resolve(htmlEntryOutputPath, `./${basename}.html`)
-  const publicPath = path.relative(htmlEntryOutputPath, webpackEntryOutputPath)
   const plugin = new HtmlWebpackPlugin({
     inject: false,
     hash: false,
     template: htmlEntryTemplate,
     filename: filename,
     basename: basename,
-    publicPath: publicPath,
+    publicPath: htmlPublicPath,
     alwaysWriteToDisk: true
   })
   plugins.push(plugin)
@@ -81,7 +82,7 @@ config.webpack = {
   entry: entry,
   output: {
     path: webpackEntryOutputPath,
-    publicPath: '',
+    publicPath: webpackPublicPath,
     filename: '[name].js?[hash:8]',
     chunkFilename: '[name].js?[hash:8]'
   },
@@ -103,8 +104,8 @@ config.webpack = {
       test: /\.(png|jpe?g|gif|svg)$/,
       loader: 'file-loader',
       options: {
-        outputPath: '',
-        publicPath: '',
+        outputPath: 'img',
+        publicPath: 'img',
         useRelativePath: false,
         name: '[name].[ext]?[hash:8]'
       }
@@ -112,8 +113,8 @@ config.webpack = {
       test: /\.(woff2?|eot|ttf|otf)$/,
       loader: 'file-loader',
       options: {
-        outputPath: '',
-        publicPath: '',
+        outputPath: 'fonts',
+        publicPath: 'fonts',
         useRelativePath: false,
         name: '[name].[ext]?[hash:8]'
       }
@@ -151,7 +152,7 @@ config.webpack = {
     }]
   },
   plugins: plugins,
-  devtool: (isDev) ? 'source-map' : false
+  devtool: (devMode) ? 'source-map' : false
 }
 
 config['webpack-dev-server'] = {

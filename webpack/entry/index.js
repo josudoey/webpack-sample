@@ -1,1 +1,1 @@
-require('../assets/js/sample')
+require(['../assets/js/sample'])

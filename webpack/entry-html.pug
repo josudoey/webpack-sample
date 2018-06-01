@@ -1,7 +1,7 @@
 - var files = htmlWebpackPlugin.files
 - var options = htmlWebpackPlugin.options
 - var basename = options.basename
-- var entryPath = options.publicPath+'/'+files.chunks[basename].entry
+- var entryPath = options.publicPath+files.chunks[basename].entry
 
 doctype html
 html(lang="en")
@@ -9,8 +9,6 @@ html(lang="en")
     meta(name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0")
     meta(name="robots" content="noindex, nofollow")
     title
-    each item in files.css
-      link(rel="stylesheet" type="text/css" href=options.publicPath+'/'+item)
   body
     pre #{JSON.stringify(htmlWebpackPlugin,null,4)}
     script(src=entryPath)

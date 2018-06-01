@@ -1,1 +1,1 @@
-const css = require('../css/sample.css')
+require('../css/sample.css')

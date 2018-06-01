@@ -13,7 +13,7 @@ const htmlEntryTemplate = path.resolve(projectPath, './webpack/entry-html.pug')
 const htmlPublicPath = './'
 const htmlEntryOutputPath = path.resolve(projectPath, './build/public', htmlPublicPath)
 
-const webpackPublicPath = './bundle/'
+const webpackPublicPath = 'bundle/'
 const webpackEntryOutputPath = path.resolve(projectPath, './build/public', webpackPublicPath)
 
 const contentBase = path.resolve(projectPath, './build/public')
@@ -48,8 +48,8 @@ const plugins = [
     beforeEmit: true
   }),
   new MiniCssExtractPlugin({
-    filename: '[name].css?[hash:8]',
-    chunkFilename: '[id].css?[hash:8]'
+    filename: 'css/[name].css?[hash:8]',
+    chunkFilename: 'css/[id].css?[hash:8]'
   }),
   new webpack.ProvidePlugin({ }),
   new webpack.DefinePlugin({})
@@ -105,7 +105,7 @@ config.webpack = {
       loader: 'file-loader',
       options: {
         outputPath: 'img',
-        publicPath: 'img',
+        publicPath: '../img',
         useRelativePath: false,
         name: '[name].[ext]?[hash:8]'
       }
@@ -114,7 +114,7 @@ config.webpack = {
       loader: 'file-loader',
       options: {
         outputPath: 'fonts',
-        publicPath: 'fonts',
+        publicPath: '../fonts',
         useRelativePath: false,
         name: '[name].[ext]?[hash:8]'
       }

@@ -145,8 +145,6 @@ config.webpack = {
       test: /\.js$/,
       exclude: /(node_modules|bower_components)/,
       include: [
-        path.resolve(__dirname, '../webpack'),
-        path.resolve(__dirname, '../assets')
       ],
       loader: 'babel-loader',
       options: {

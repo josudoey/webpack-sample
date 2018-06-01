@@ -1,1 +1,1 @@
-require(['../assets/js/sample'])
+import('../assets/js/sample')

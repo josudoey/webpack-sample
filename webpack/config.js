@@ -148,7 +148,12 @@ config.webpack = {
         path.resolve(__dirname, '../webpack'),
         path.resolve(__dirname, '../assets')
       ],
-      loader: 'babel-loader'
+      loader: 'babel-loader',
+      options: {
+        plugins: [
+          require('babel-plugin-syntax-dynamic-import')
+        ]
+      }
     }]
   },
   plugins: plugins,

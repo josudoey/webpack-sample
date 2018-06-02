@@ -117,7 +117,7 @@ gulp.task('webpack:dev', function () {
   compiler.devtool = 'source-map'
 
   const host = argv.host || '0.0.0.0'
-  const port = argv.port || 3300
+  const port = argv.port || 3000
   for (const name of Object.keys(configWebpack.entry)) {
     configWebpack.entry[name].unshift(`webpack-dev-server/client?http://localhost:${port}/`)
   }

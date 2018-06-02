@@ -11,13 +11,7 @@ html(lang="en")
     title
   body
     p hash #{webpack.hash}
-    ul
-      li
-        a(href="./") ./
-      li
-        a(href="./index.html") ./index.html
-      li
-        a(href="./info.html") ./info.html
+    div#app
     pre#msg
     script 
       |window.htmlWebpackPlugin = !{JSON.stringify(htmlWebpackPlugin,null,4)}

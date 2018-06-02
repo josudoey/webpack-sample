@@ -1,24 +1,25 @@
 import pathToRegexp from 'path-to-regexp'
+import('../assets/component/base-layout').then(function () {
+  const routes = [{
+    path: '/info.html',
+    component: function () {
+      import('../assets/page/info')
+    }
+  }, {
+    path: '/(.*)',
+    component: function () {
+      import('../assets/page/default')
+    }
+  }]
 
-const routes = [{
-  path: '/info.html',
-  component: function () {
-      import('../assets/pages/info')
+  const pathname = window.location.pathname
+  for (const route of routes) {
+    const {path, component} = route
+    const re = pathToRegexp(path)
+    const m = re.exec(pathname)
+    if (m) {
+      component()
+      break
+    }
   }
-}, {
-  path: '/(.*)',
-  component: function () {
-      import('../assets/pages/default')
-  }
-}]
-
-const pathname = window.location.pathname
-for (const route of routes) {
-  const {path, component} = route
-  const re = pathToRegexp(path)
-  const m = re.exec(pathname)
-  if (m) {
-    component()
-    break
-  }
-}
+})

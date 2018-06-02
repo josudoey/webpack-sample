@@ -48,8 +48,8 @@ const plugins = [
     beforeEmit: true
   }),
   new MiniCssExtractPlugin({
-    filename: 'css/[name].css?[hash:8]',
-    chunkFilename: 'css/[id].css?[hash:8]'
+    filename: 'css/[name].css?[hash:4]',
+    chunkFilename: 'css/[id].css?[hash:4]'
   }),
   new webpack.ProvidePlugin({ }),
   new webpack.DefinePlugin({})
@@ -83,8 +83,8 @@ config.webpack = {
   output: {
     path: webpackEntryOutputPath,
     publicPath: webpackPublicPath,
-    filename: '[name].js?[hash:8]',
-    chunkFilename: '[name].js?[hash:8]'
+    filename: '[name].js?[hash:4]',
+    chunkFilename: '[name].js?[hash:4]'
   },
   resolve: {
     alias: {}
@@ -107,7 +107,7 @@ config.webpack = {
         outputPath: 'img',
         publicPath: '../img',
         useRelativePath: false,
-        name: '[name].[ext]?[hash:8]'
+        name: '[name].[ext]?[hash:4]'
       }
     }, {
       test: /\.(woff2?|eot|ttf|otf)$/,
@@ -116,7 +116,7 @@ config.webpack = {
         outputPath: 'fonts',
         publicPath: '../fonts',
         useRelativePath: false,
-        name: '[name].[ext]?[hash:8]'
+        name: '[name].[ext]?[hash:4]'
       }
     }, {
       test: /\.html$/,

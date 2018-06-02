@@ -10,5 +10,17 @@ html(lang="en")
     meta(name="robots" content="noindex, nofollow")
     title
   body
-    pre #{JSON.stringify(htmlWebpackPlugin,null,4)}
+    p hash #{webpack.hash}
+    ul
+      li
+        a(href="./") ./
+      li
+        a(href="./index.html") ./index.html
+      li
+        a(href="./info.html") ./info.html
+    pre#msg
+    script 
+      |window.htmlWebpackPlugin = !{JSON.stringify(htmlWebpackPlugin,null,4)}
+      |window.webpackConfig = !{JSON.stringify(webpackConfig,null,4)}
+      |window.webpack = !{JSON.stringify(webpack,null,4)}
     script(src=entryPath)

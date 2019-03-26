@@ -92,6 +92,7 @@ config.webpack = {
   optimization: {
     minimizer: [
       new UglifyJsPlugin({
+        test: /\.js?$/i,
         cache: true,
         parallel: true,
         sourceMap: true
@@ -148,8 +149,11 @@ config.webpack = {
       ],
       loader: 'babel-loader',
       options: {
+        presets: [
+          '@babel/env'
+        ],
         plugins: [
-          require('babel-plugin-syntax-dynamic-import')
+          '@babel/syntax-dynamic-import'
         ]
       }
     }]

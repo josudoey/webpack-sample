@@ -14,7 +14,7 @@ import('../assets/component/base-layout').then(function () {
 
   const pathname = window.location.pathname
   for (const route of routes) {
-    const {path, component} = route
+    const { path, component } = route
     const re = pathToRegexp(path)
     const m = re.exec(pathname)
     if (m) {

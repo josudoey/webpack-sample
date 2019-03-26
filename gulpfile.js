@@ -20,8 +20,9 @@ const htmlGlob = staticPath + '/**/*.+(html|htm)'
 const cssGlob = staticPath + '/**/*.css'
 const buildPath = config.contentBase
 const fs = require('fs')
-gulp.task('clean', function () {
-  return del.sync([buildPath])
+gulp.task('clean', function (cb) {
+  del.sync([buildPath])
+  cb()
 })
 
 gulp.task('clone', function () {
@@ -94,24 +95,20 @@ gulp.task('min:html', function () {
   })).pipe(gulp.dest(buildPath))
 })
 
-gulp.task('static', ['clone', 'min:image', 'min:js', 'min:css', 'min:html'])
+gulp.task('static', gulp.parallel(['clone', 'min:image', 'min:js', 'min:css', 'min:html']))
 
-gulp.task('build', ['clean'], function (cb) {
-  gulp.start('webpack').on('end', function (next) {
-    gulp.start('static').on('end', next)
-  })
-})
+gulp.task('build', gulp.series(['clean', 'webpack', 'static']))
 
-gulp.task('watch', function () {
-  gulp.start('static')
-  gulp.watch(cloneGlob, ['clone'])
-  gulp.watch(imageGlob, ['min:image'])
-  gulp.watch(cssGlob, ['min:css'])
-  gulp.watch(jsGlob, ['min:js'])
-  gulp.watch(htmlGlob, ['min:html'])
-})
+gulp.task('watch', gulp.series(['static', function (cb) {
+  gulp.watch(cloneGlob, gulp.series(['clone']))
+  gulp.watch(imageGlob, gulp.series(['min:image']))
+  gulp.watch(cssGlob, gulp.series(['min:css']))
+  gulp.watch(jsGlob, gulp.series(['min:js']))
+  gulp.watch(htmlGlob, gulp.series(['min:html']))
+  cb()
+}]))
 
-gulp.task('webpack:dev', function () {
+gulp.task('webpack:dev', function (cb) {
   const configWebpack = config.webpack
   const compiler = webpack(configWebpack)
   compiler.devtool = 'source-map'
@@ -149,6 +146,7 @@ gulp.task('webpack:dev', function () {
     const httpListen = host + ':' + port
     log('[webpack-dev-server]', 'Http Listen in ' + httpListen)
   })
+  cb()
 })
 
-gulp.task('dev', ['webpack:dev', 'watch'])
+gulp.task('dev', gulp.parallel(['webpack:dev', 'watch']))

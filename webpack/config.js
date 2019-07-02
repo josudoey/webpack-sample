@@ -1,6 +1,6 @@
 const path = require('path')
 const webpack = require('webpack')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin')
 const globby = require('globby')
@@ -25,6 +25,7 @@ const devMode = env !== 'production'
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const config = module.exports = {
   projectPath: projectPath,
@@ -41,7 +42,8 @@ const entryFiles = globby.sync(path.resolve(contentPath, 'entry', '*.js'), {
   nodir: true
 })
 const plugins = [
-  new CleanWebpackPlugin([contentBase], {
+  new CleanWebpackPlugin({
+    cleanOnceBeforeBuildPatterns: [contentBase],
     root: projectPath,
     verbose: true,
     dry: false,
@@ -58,7 +60,9 @@ const plugins = [
 for (const entryPath of entryFiles) {
   const basename = path.basename(entryPath, '.js')
   const entryName = camelCase(basename)
-  entry[entryName] = [entryPath]
+  entry[entryName] = [
+    entryPath
+  ]
 
   const filename = path.resolve(htmlEntryOutputPath, `./${basename}.html`)
   const plugin = new HtmlWebpackPlugin({
@@ -90,13 +94,8 @@ config.webpack = {
     alias: {}
   },
   optimization: {
-    minimizer: [
-      new UglifyJsPlugin({
-        test: /\.js?$/i,
-        cache: true,
-        parallel: true,
-        sourceMap: true
-      }),
+    minimizer: (devMode) ? [] : [
+      new TerserPlugin({}),
       new OptimizeCSSAssetsPlugin({})
     ]
   },
@@ -142,21 +141,7 @@ config.webpack = {
         loader: 'css-loader',
         options: {}
       } ]
-    }, {
-      test: /\.js$/,
-      exclude: /(node_modules|bower_components)/,
-      include: [
-      ],
-      loader: 'babel-loader',
-      options: {
-        presets: [
-          '@babel/env'
-        ],
-        plugins: [
-          '@babel/syntax-dynamic-import'
-        ]
-      }
-    }]
+    } ]
   },
   plugins: plugins,
   devtool: (devMode) ? 'source-map' : false

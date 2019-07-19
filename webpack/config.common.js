@@ -57,7 +57,7 @@ const plugins = [
   }
 ]
 
-const htmlEntryTemplate = path.resolve(projectPath, './webpack/entry-html.pug')
+const htmlEntryTemplate = path.resolve(projectPath, './webpack/entry-template.pug')
 let entry = {}
 for (let file of entryFiles) {
   const entryName = path.basename(file, '.js')
@@ -118,10 +118,10 @@ module.exports = {
         minimize: true
       }
     }, {
-      test: /html.pug$/,
+      test: /template.pug$/,
       loader: 'pug-loader'
     }, {
-      test: /template.pug$/,
+      test: /html.pug$/,
       use: [{
         loader: 'html-loader',
         options: {

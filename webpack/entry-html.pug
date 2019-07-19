@@ -1,7 +1,7 @@
 - var files = htmlWebpackPlugin.files
 - var options = htmlWebpackPlugin.options
 - var basename = options.basename
-- var entryPath = options.publicPath+files.chunks[basename].entry
+- var entryPath = files.chunks[basename].entry
 
 doctype html
 html(lang="en")

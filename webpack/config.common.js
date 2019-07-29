@@ -69,7 +69,6 @@ for (let file of entryFiles) {
     template: htmlEntryTemplate,
     filename: filename,
     alwaysWriteToDisk: true,
-
     // pug state
     basename: entryName
   })
@@ -115,7 +114,8 @@ module.exports = {
       test: /\.html$/,
       loader: 'html-loader',
       options: {
-        minimize: true
+        minimize: true,
+        collapseBooleanAttributes: true
       }
     }, {
       test: /template.pug$/,
@@ -125,7 +125,8 @@ module.exports = {
       use: [{
         loader: 'html-loader',
         options: {
-          minimize: true
+          minimize: true,
+          collapseBooleanAttributes: true
         }
       }, {
         loader: 'pug-html-loader',
